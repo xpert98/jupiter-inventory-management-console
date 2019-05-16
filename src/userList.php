@@ -1,0 +1,41 @@
+<?php
+
+/*
+Jupiter Inventory Management Console
+Copyright (C) 2019 Matt Stanchek
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+*/
+
+session_start();
+if (isset($_SESSION['username'])) {
+
+    include 'db.php';
+    $conn = pg_connect("host=".$dbhost." dbname=".$dbname." user=".$dbuser." password=".$dbpass."");
+    $userResult = pg_prepare($conn, "getusers", 'select id, username, firstname, lastname from jmcuser');
+    $userResult = pg_execute($conn, "getusers", array());
+    $userResultError = pg_result_error($userResult);
+
+    $numRows = pg_num_rows($userResult);
+
+    $users = pg_fetch_all($userResult);
+
+    $jsonData = json_encode($users);
+
+    echo $jsonData;
+
+}
+
+?>
