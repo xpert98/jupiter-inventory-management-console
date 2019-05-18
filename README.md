@@ -8,7 +8,7 @@ The Jupiter Inventory Management Console is a client for instances of the Jupite
 * Running instances of the Jupiter Collector Service and the Jupiter Curated Inventory Service
 
 ## Database Setup
-SQL commands necessary to set up tables in the schema are included in db.sql.  The script assumes the database user name to be "jupiter" so change that to suit the authentication set up for your database.
+SQL commands necessary to set up tables in the schema are included in jmc.sql.  The script assumes the database user name to be "jupiter" so change that to suit the authentication set up for your database.
 
 ## Running the Inventory Management Console
 First, set environment variables for the following:
