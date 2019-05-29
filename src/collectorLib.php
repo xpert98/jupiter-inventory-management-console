@@ -71,7 +71,7 @@ class collector {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
-            'Authorization: Bearer '.$_POST["apiToken"]
+            'Authorization: Bearer '.$collectorToken
         ));
         
         $collectorInstanceData = curl_exec($ch);
@@ -82,13 +82,13 @@ class collector {
 
     }
 
-    function createCollector($collectorInstanceData) {
+    function createCollector($collectorInstanceData, $collectorUrl, $apiToken) {
 
         include 'db.php';
         $decodedInstanceData = json_decode($collectorInstanceData);
         $conn = pg_connect("host=".$dbhost." dbname=".$dbname." user=".$dbuser." password=".$dbpass."");
         $insertResult = pg_prepare($conn, "addcollector", 'insert into collector (id, apitoken, url) values ($1, $2, $3)');
-        $insertResult = pg_execute($conn, "addcollector", array($decodedInstanceData->{'instanceId'}, $_POST["apiToken"], $_POST["collectorUrl"]));
+        $insertResult = pg_execute($conn, "addcollector", array($decodedInstanceData->{'instanceId'}, $apiToken, $collectorUrl));
         $insertResultError = pg_result_error($insertResult);
         
         return $insertResultError;

@@ -1,54 +1,154 @@
-CREATE TABLE public.collector
-(
-    id character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    apitoken text COLLATE pg_catalog."default" NOT NULL,
-    url text COLLATE pg_catalog."default" NOT NULL,
-    primarycollector boolean,
-    CONSTRAINT unq_id UNIQUE (id)
+--
+-- PostgreSQL database dump
+--
 
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
+-- Dumped from database version 10.7
+-- Dumped by pg_dump version 10.7
 
-ALTER TABLE public.collector
-    OWNER to jupiter;
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
 
-GRANT ALL ON TABLE public.collector TO jupiter;
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
 
-
-
-CREATE TABLE public.config
-(
-    settingname character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    settingvalue text COLLATE pg_catalog."default"
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER TABLE public.config
-    OWNER to jupiter;
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
 
-CREATE TABLE public.jmcuser
-(
-    id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
-    username character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    password text COLLATE pg_catalog."default" NOT NULL,
-    firstname character varying(55) COLLATE pg_catalog."default",
-    lastname character varying(55) COLLATE pg_catalog."default",
-    CONSTRAINT user_pkey PRIMARY KEY (id),
-    CONSTRAINT unq_username UNIQUE (username)
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
 
-ALTER TABLE public.jmcuser
-    OWNER to jupiter;
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: collector; Type: TABLE; Schema: public; Owner: jupiter
+--
+
+CREATE TABLE public.collector (
+    id character varying(100) NOT NULL,
+    apitoken text NOT NULL,
+    url text NOT NULL,
+    primarycollector boolean
+);
+
+
+ALTER TABLE public.collector OWNER TO jupiter;
+
+--
+-- Name: config; Type: TABLE; Schema: public; Owner: jupiter
+--
+
+CREATE TABLE public.config (
+    settingname character varying(50) NOT NULL,
+    settingvalue text
+);
+
+
+ALTER TABLE public.config OWNER TO jupiter;
+
+--
+-- Name: jmcuser; Type: TABLE; Schema: public; Owner: jupiter
+--
+
+CREATE TABLE public.jmcuser (
+    id integer NOT NULL,
+    username character varying(100) NOT NULL,
+    password text NOT NULL,
+    firstname character varying(55),
+    lastname character varying(55)
+);
+
+
+ALTER TABLE public.jmcuser OWNER TO jupiter;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: jupiter
+--
+
+CREATE SEQUENCE public.user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_id_seq OWNER TO jupiter;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: jupiter
+--
+
+ALTER SEQUENCE public.user_id_seq OWNED BY public.jmcuser.id;
+
+
+--
+-- Name: jmcuser id; Type: DEFAULT; Schema: public; Owner: jupiter
+--
+
+ALTER TABLE ONLY public.jmcuser ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
+
+
+
+--
+-- Data for Name: config; Type: TABLE DATA; Schema: public; Owner: jupiter
+--
+
+COPY public.config (settingname, settingvalue) FROM stdin;
+CIS_URL	
+CIS_TOKEN	
+FORTIFY_URL	
+FORTIFY_USERNAME	
+FORTIFY_PASSWORD	
+\.
+
+
+--
+-- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: jupiter
+--
+
+SELECT pg_catalog.setval('public.user_id_seq', 6, true);
+
+
+--
+-- Name: collector unq_id; Type: CONSTRAINT; Schema: public; Owner: jupiter
+--
+
+ALTER TABLE ONLY public.collector
+    ADD CONSTRAINT unq_id UNIQUE (id);
+
+
+--
+-- Name: jmcuser unq_username; Type: CONSTRAINT; Schema: public; Owner: jupiter
+--
+
+ALTER TABLE ONLY public.jmcuser
+    ADD CONSTRAINT unq_username UNIQUE (username);
+
+
+--
+-- Name: jmcuser user_pkey; Type: CONSTRAINT; Schema: public; Owner: jupiter
+--
+
+ALTER TABLE ONLY public.jmcuser
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

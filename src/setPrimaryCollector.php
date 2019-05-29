@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
 Jupiter Inventory Management Console
@@ -26,7 +26,7 @@ if (isset($_SESSION['username'])) {
     include 'db.php';
     $conn = pg_connect("host=".$dbhost." dbname=".$dbname." user=".$dbuser." password=".$dbpass."");
     $updateResult = pg_prepare($conn, "setprimary", 'update collector set primarycollector = $1 where id = $2');
-    $updateResult = pg_execute($conn, "setprimary", array($_POST["primaryToggle"], $_POST["id"]));
+    $updateResult = pg_execute($conn, "setprimary", array($_POST['primaryToggle'], $_POST['id']));
     $updateResultError = pg_result_error($updateResult);
 
 ?>
@@ -53,7 +53,7 @@ if (isset($_SESSION['username'])) {
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.href = 'collectors.php';">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.href = 'admin.php?tab=collectors';">Close</button>
             </div>
 
         </div>
@@ -67,6 +67,8 @@ if (isset($_SESSION['username'])) {
 </script>
 
 <?php
+
 }
+
 include 'footer.php';
 ?>

@@ -48,7 +48,7 @@ if (count($collectorList) > 0) {
             echo '<li class="list-group-item"><span class="badge badge-success">Primary</span></li>';
         }
         else {
-            echo '<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm" onclick="makePrimary(\''.$row['id'].'\');">Make Primary</button></li>';
+            echo '<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm" onclick="makePrimary(\''.$collectorInstance['id'].'\');">Make Primary</button></li>';
         }
         echo '</ul></div>';
 

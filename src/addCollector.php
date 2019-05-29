@@ -42,7 +42,7 @@ $collectorInstanceData = $collector->validateNewCollector($_POST["collectorUrl"]
                 <?php 
                     if (isset($collectorInstanceData)) {
                         
-                        $createInstanceResultError = $collector->createCollector($collectorInstanceData);
+                        $createInstanceResultError = $collector->createCollector($collectorInstanceData, $_POST["collectorUrl"], $_POST["apiToken"]);
 
                         if ($createInstanceResultError == '') {
                             echo '<div class="alert alert-success" role="alert">Collector configured successfully!</div>';

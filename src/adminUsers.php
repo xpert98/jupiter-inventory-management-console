@@ -32,7 +32,7 @@ if (isset($_SESSION['username'])) {
         <div style="width: 800px;">
             <table
             data-toggle="table"
-            data-url="http://localhost/userList.php"
+            data-url="http://<?php echo $_SERVER['HTTP_HOST']; ?>/userList.php"
             data-pagination="true"
             data-search="true">
                 <thead>
