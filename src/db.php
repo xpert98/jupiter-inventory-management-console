@@ -27,7 +27,18 @@
     if (isset($_SERVER['JUPITER_DB_PASSWORD'])) {
         $dbpass = $_SERVER['JUPITER_DB_PASSWORD'];
     }
-    else {
+    elseif (isset($_ENV['JUPITER_DB_PASSWORD'])) {
         $dbpass = $_ENV['JUPITER_DB_PASSWORD'];
+    }
+    else { //Get password when using Docker Swarm and Docker Secrets
+        $dbPassFile = '';
+        if (isset($_SERVER['JUPITER_DB_PASSWORD_FILE'])) {
+            $dbPassFile = $_SERVER['JUPITER_DB_PASSWORD_FILE'];
+        }
+        else {
+            $dbPassFile = $_ENV['JUPITER_DB_PASSWORD_FILE'];
+        }
+
+        $dbpass = rtrim(file_get_contents($dbPassFile));
     }
 ?>

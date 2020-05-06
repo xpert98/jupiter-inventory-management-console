@@ -11,36 +11,6 @@ $secret = new secret;
 
 <form action="processSetup.php" method="POST">
 
-Encryption Key:
-<br>
-<textarea name="ekey" rows="4" style="width: 800px;">
-<?php
-
-$secretKey = $secret->genString(4);
-
-echo $secretKey;
-
-?>
-</textarea>
-
-<br>
-<br>
-
-Initialization Vector:
-<br>
-<textarea name="iv" rows="2" style="width: 800px;">
-<?php
-
-$iv = $secret->genString(1);
-
-echo $iv;
-
-?>
-</textarea>
-
-<br>
-<br>
-
 Database Server Host:
 <br>
 <input type="text" name="dbhost">

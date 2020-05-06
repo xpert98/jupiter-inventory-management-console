@@ -21,10 +21,53 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 class secret {
 
+    function getSecretKey() {
+        $secretKey = '';
+
+        if (isset($_SERVER['SECRET_KEY'])) {
+            $secretKey = $_SERVER['SECRET_KEY'];
+        }
+        elseif (isset($_ENV['SECRET_KEY'])) {
+            $secretKey = $_ENV['SECRET_KEY'];
+        }
+        else { //Get secret key when using Docker Swarm and Docker Secrets
+            $secretKeyFile = '';
+            if (isset($_SERVER['SECRET_KEY_FILE'])) {
+                $secretKeyFile = $_SERVER['SECRET_KEY_FILE'];
+            }
+            else {
+                $secretKeyFile = $_ENV['SECRET_KEY_FILE'];
+            }
+
+            $secretKey = rtrim(file_get_contents($secretKeyFile));
+        }
+
+    }
+
+    function getSecretIv() {
+        if (isset($_SERVER['SECRET_IV'])) {
+            $ivSeed = $_SERVER['SECRET_IV'];
+        }
+        elseif (isset($_ENV['SECRET_IV'])) {
+            $ivSeed = $_ENV['SECRET_IV'];
+        }
+        else { //Get secret iv when using Docker Swarm and Docker Secrets
+            $ivSeedFile = '';
+            if (isset($_SERVER['SECRET_IV_FILE'])) {
+                $ivSeedFile = $_SERVER['SECRET_IV_FILE'];
+            }
+            else {
+                $ivSeedFile = $_ENV['SECRET_IV_FILE'];
+            }
+
+            $ivSeed = rtrim(file_get_contents($ivSeedFile));
+        }
+    }
+
     function encryptString($string) {
 
-        $secretKey = $_SERVER['SECRET_KEY'];
-        $ivSeed = $_SERVER['SECRET_IV'];
+        $secretKey = $this->getSecretKey();
+        $ivSeed = $this->getSecretIv();
         $cipher = "AES-256-CBC";
         $key = hash('sha256', $secretKey);
         $iv = substr(hash('sha256', $ivSeed), 0, 16);
@@ -37,8 +80,8 @@ class secret {
 
     function decryptString($string) {
 
-        $secretKey = $_SERVER['SECRET_KEY'];
-        $ivSeed = $_SERVER['SECRET_IV'];
+        $secretKey = $this->getSecretKey();
+        $ivSeed = $this->getSecretIv();
         $cipher = "AES-256-CBC";
         $key = hash('sha256', $secretKey);
         $iv = substr(hash('sha256', $ivSeed), 0, 16);

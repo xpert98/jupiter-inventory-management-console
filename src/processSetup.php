@@ -47,19 +47,15 @@ if (!empty($_POST)) {
     echo $userResultError;
 
     if ($userResultError == '') {
-        echo 'The admin user has been set up successfully.  Use the Encryption Key, Initialization Vector and the same database configuration information values to set environment variables necessary for the Jupiter Inventory Management Console to run.';
-        echo '<br><br>';
-        echo 'Encryption Key:<br>'.$_POST['ekey'];
-        echo '<br><br>';
-        echo 'Initialization Vector:<br>'.$_POST['iv'];
+        echo 'The admin user has been set up successfully.';
     }
     else {
-        echo "failure adding user";
+        echo "Failure adding user";
     }
 
 }
 else {
-    echo "setup failure";
+    echo "Setup failure";
 }
 
 ?>
