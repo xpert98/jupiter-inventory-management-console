@@ -1,16 +1,37 @@
 # Jupiter Inventory Management Console
 The Jupiter Inventory Management Console is a client for instances of the Jupiter Collector Service and the Jupiter Curated Inventory Service.
 
-## Prerequisites
+
+## Deployment
+
+### Production Environment
+
+Docker Swarm is recommended for production deployment.  
+
+Additional Docker Swarm deployment resources here: https://github.com/xpert98/jupiter-docker
+
+#### Database Setup
+SQL commands necessary to set up tables in the schema are included in db.sql.
+Seed data is included in db_data_seed.sql.
+1. Log into Postgres and create a new database
+1. Execute the statements from db.sql to create the schema
+1. Execute the statements from db_data_seed.sql to seed initial data into the database
+
+### Development Environment
+#### Prerequisites
 * PHP 7 or greater
 * PostgreSQL 10 or greater
 * nginx or Apache web server
 * Running instances of the Jupiter Collector Service and the Jupiter Curated Inventory Service
 
-## Database Setup
-SQL commands necessary to set up tables in the schema are included in jmc.sql.  The script assumes the database user name to be "jupiter" so change that to suit the authentication set up for your database.
+#### Database Setup
+SQL commands necessary to set up tables in the schema are included in db.sql.
+Seed data is included in db_data_seed.sql.
+1. Log into Postgres and create a new database
+1. Execute the statements from db.sql to create the schema
+1. Execute the statements from db_data_seed.sql to seed initial data into the database
 
-## Configuring the Inventory Management Console
+#### Configuring the Inventory Management Console
 First, copy all files from the src directory to the web server document root and then start the web server.
 
 Next, navigate to http(s)://<host>/setup.php.  There, you will be provided with a randomly generated secret key and initialization vector that is used by the application to encrypt some data fields in its database.  
@@ -19,7 +40,7 @@ This is where you can also create a new user.
   
 NOTE: Once you save the encryption key and initialization vector for the next step and create a new user, it is best to remove the setup.php file from the web server's document root.
 
-## Running the Inventory Management Console
+#### Running the Inventory Management Console
 Set environment variables for the following:
 
 * JUPITER_DB_HOST
